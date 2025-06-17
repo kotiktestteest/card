@@ -12,10 +12,12 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #ffe4e9, #ffd1dc);
-            overflow: hidden;
+            overflow: hidden; /* Запрещаем скроллинг */
             font-family: 'Arial', sans-serif;
             cursor: pointer;
             transition: background 2s ease;
+            -webkit-overflow-scrolling: touch; /* Отключаем инерционный скролл на iOS */
+            touch-action: none; /* Запрещаем все touch-действия (свайп, зум) */
         }
         .container {
             position: relative;
@@ -25,7 +27,6 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
-            /* Убрано overflow: hidden, чтобы конфетти не обрезались */
         }
         .message {
             position: absolute;
@@ -124,7 +125,7 @@
         /* Адаптация для мобильных устройств */
         @media (max-width: 768px) {
             .message {
-                font-size: 5.5em;
+                font-size: 3.5em;
                 top: 15%;
             }
             .gif-container {
