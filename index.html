@@ -25,6 +25,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
+            overflow: hidden; /* Ограничиваем конфетти внутри контейнера */
         }
         .message {
             position: absolute;
@@ -47,11 +48,11 @@
         }
         .gif-container {
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 500px;
+            height: 500px;
             background: url('1.gif') no-repeat center;
             background-size: contain;
-            border-radius: 20%;
+            border-radius: 100%;
             overflow: hidden;
             top: 50%;
             left: 50%;
@@ -85,7 +86,7 @@
             animation: float-confetti 6s linear infinite;
             pointer-events: none;
             transform: rotateZ(calc(var(--r) * 1deg));
-            z-index: 5;
+            z-index: 4; /* Ниже гифки, но выше фона */
         }
         .spark {
             position: absolute;
@@ -127,8 +128,8 @@
                 top: 15%;
             }
             .gif-container {
-                width: 200px;
-                height: 200px;
+                width: 300px;
+                height: 300px;
             }
             .start-text {
                 font-size: 1.2em;
@@ -140,8 +141,8 @@
                 top: 10%;
             }
             .gif-container {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
             }
             .start-text {
                 font-size: 1em;
@@ -188,13 +189,13 @@
         });
 
         function startEffects() {
-            setInterval(createConfetti, 100);
+            setInterval(createConfetti, 100); // Конфетти внутри контейнера
             setInterval(createSpark, 150);
         }
 
         function createStars() {
             const starCount = 20;
-            const gifWidth = 300; // Ширина гифки
+            const gifWidth = 500; // Ширина гифки
             const offset = gifWidth / 2 + 50; // Смещение для звездочек справа и слева
 
             for (let i = 0; i < starCount; i++) {
@@ -216,12 +217,16 @@
             confetti.classList.add('confetti');
             const colors = ['#ff4d4d', '#4dff4d', '#4d4dff', '#ffff4d', '#ff4dff'];
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = `calc(50% + ${Math.random() * 200 - 100}px)`;
-            confetti.style.top = '70%';
+            // Начальная позиция вокруг гифки (500x500px), с учетом её центра
+            const gifHalf = 250; // Половина ширины/высоты гифки
+            const xOffset = Math.random() * 100 - 50 + (Math.random() > 0.5 ? gifHalf : -gifHalf);
+            const yOffset = Math.random() * 100 - 50 + (Math.random() > 0.5 ? gifHalf : -gifHalf);
+            confetti.style.left = `calc(50% + ${xOffset}px)`;
+            confetti.style.top = `calc(50% + ${yOffset}px)`;
             confetti.style.setProperty('--x', Math.random() * 600 - 300);
             confetti.style.setProperty('--y', Math.random() * 300 - 150);
             confetti.style.setProperty('--r', Math.random() * 360);
-            document.body.appendChild(confetti);
+            container.appendChild(confetti); // Добавляем в контейнер
             setTimeout(() => confetti.remove(), 6000);
         }
 
